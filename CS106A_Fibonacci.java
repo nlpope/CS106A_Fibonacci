@@ -26,11 +26,12 @@ public class CS106A_Fibonacci extends ConsoleProgram
 		int twoSlotsAgo = 0;
 		int i = 0;
 		
-		while(fibResult < MAX_TERM_VALUE){
+		while(true){
 			if (i == 0) { fibResult = i; twoSlotsAgo = i; println(fibResult); }
 			else if (i == 1) { fibResult = i; oneSlotAgo = i; println(fibResult); }
 			else { 
 				fibResult = oneSlotAgo + twoSlotsAgo; 
+				if (fibResult >= MAX_TERM_VALUE) break;
 				twoSlotsAgo = oneSlotAgo;
 				oneSlotAgo = fibResult;
 				println(fibResult);
