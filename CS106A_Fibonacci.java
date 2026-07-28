@@ -12,18 +12,42 @@ public class CS106A_Fibonacci extends ConsoleProgram
 {	
 	public void run()
 	{ 
-		int userInt = readInt("Enter a number and I'll tell you what number in" +
+		userInt = readInt("Enter a number and I'll tell you what number in" +
 				"the Fibonnacci sequence is at that location: ");
-		println("The " + calculateFibonacci(userInt));
+		if (userInt == 0) { messagePlurality = ""; }
+		else if (userInt % 10 == 1) { messagePlurality = "st"; }
+		else if (userInt % 10 == 2) { messagePlurality = "nd"; }
+		else if (userInt % 10 == 3) { messagePlurality = "rd"; }
+		else { messagePlurality = "th"; }
+		 
+		println("The " + userInt + messagePlurality + " number in the Fibonacci sequence is " 
+				+ calculateFibonacciUpToSlot(userInt));
 	}
 	
 	
-	private int calculateFibonacci(int n)
+	private int calculateFibonacciUpToSlot(int endSlot)
 	{
-		int result = 0;
-		for (int i = n; i >= n - 2; i--){
-			
+		if (endSlot <= 0) { 
+			println("You must enter a non-negative, non-zero integer. Let's try again...");
+			run();
 		}
-		return ((n-1) + (n-2));
+		
+		int fibResult = 0;
+		int oneSlotAgo = 1;
+		int twoSlotsAgo = 0;
+		for (int i = 0; i < endSlot; i++){
+			//fib = 0,1,(1+0)=1, (1+1)=2, (2+1)=3,...
+			if (i == 0) { fibResult = i; twoSlotsAgo = i;}
+			else if (i == 1) { fibResult = i; oneSlotAgo = i; }
+			else { 
+				fibResult = oneSlotAgo + twoSlotsAgo; 
+				twoSlotsAgo = oneSlotAgo;
+				oneSlotAgo = fibResult;
+			}
+		}
+		return fibResult;
 	}
+	
+	int userInt;
+	String messagePlurality;
 }
