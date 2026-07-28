@@ -12,28 +12,52 @@ public class CS106A_Fibonacci extends ConsoleProgram
 {	
 	public void run()
 	{ 
-		userInt = readInt("Enter a number and I'll tell you what number in" +
-				"the Fibonnacci sequence is at that location: ");
-		if (userInt == 0) { messagePlurality = ""; }
-		else if (userInt % 10 == 1) { messagePlurality = "st"; }
-		else if (userInt % 10 == 2) { messagePlurality = "nd"; }
-		else if (userInt % 10 == 3) { messagePlurality = "rd"; }
-		else { messagePlurality = "th"; }
-		 
-		println("The " + userInt + messagePlurality + " number in the Fibonacci sequence is " 
-				+ calculateFibonacciUpToSlot(userInt));
+		//calculateFibonacciUpToSlot();
+		displayFibonacciSequence();
 	}
 	
 	
-	private int calculateFibonacciUpToSlot(int endSlot)
+	private void displayFibonacciSequence()
 	{
+		println("This program lists the Fibonacci sequence.");
+		
+		int fibResult = 0;
+		int oneSlotAgo = 0;
+		int twoSlotsAgo = 0;
+		int i = 0;
+		
+		while(fibResult < MAX_TERM_VALUE){
+			if (i == 0) { fibResult = i; twoSlotsAgo = i; println(fibResult); }
+			else if (i == 1) { fibResult = i; oneSlotAgo = i; println(fibResult); }
+			else { 
+				fibResult = oneSlotAgo + twoSlotsAgo; 
+				twoSlotsAgo = oneSlotAgo;
+				oneSlotAgo = fibResult;
+				println(fibResult);
+			}
+			i++;
+		}
+	}
+	
+	
+	private void calculateFibonacciUpToSlot()
+	{
+		int endSlot = readInt("Enter a number and I'll tell you what number in" +
+		" the Fibonnacci sequence is at that location: ");
+		
+		if (endSlot == 0) { messagePlurality = ""; }
+		else if (endSlot % 10 == 1) { messagePlurality = "st"; }
+		else if (endSlot % 10 == 2) { messagePlurality = "nd"; }
+		else if (endSlot % 10 == 3) { messagePlurality = "rd"; }
+		else { messagePlurality = "th"; }
+ 
 		if (endSlot <= 0) { 
 			println("You must enter a non-negative, non-zero integer. Let's try again...");
-			run();
+			calculateFibonacciUpToSlot();
 		}
 		
 		int fibResult = 0;
-		int oneSlotAgo = 1;
+		int oneSlotAgo = 0;
 		int twoSlotsAgo = 0;
 		for (int i = 0; i < endSlot; i++){
 			//fib = 0,1,(1+0)=1, (1+1)=2, (2+1)=3,...
@@ -45,9 +69,11 @@ public class CS106A_Fibonacci extends ConsoleProgram
 				oneSlotAgo = fibResult;
 			}
 		}
-		return fibResult;
+		
+		println("The " + endSlot + messagePlurality + " number in the Fibonacci sequence is " 
+				+ fibResult);
 	}
 	
-	int userInt;
 	String messagePlurality;
+	private static final int MAX_TERM_VALUE = 10000;
 }
